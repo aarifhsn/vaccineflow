@@ -21,6 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'nid',
+        'phone',
+        'vaccine_center_id',
+        'remember_token',
+        'status',
     ];
 
     /**
@@ -44,5 +49,25 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function vaccineCenter()
+    {
+        return $this->belongsTo(VaccineCenter::class, 'vaccine_center_id');
+    }
+
+    public function getUsernameInitialsAttribute()
+    {
+        $UsernameParts = explode(' ', $this->name); // Split the name attribute by spaces
+        $initials = '';
+
+        foreach ($UsernameParts as $part) {
+            $initials .= strtoupper($part[0]); // Get the first letter of each name part
+        }
+
+        // avatar url
+        $initials = 'https://ui-avatars.com/api/?name=' . $initials . '&background=fff&color=1d4ed8&font-size=0.35&bold=true';
+
+        return $initials;
     }
 }
