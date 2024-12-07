@@ -2,29 +2,30 @@
 
 namespace App\Jobs;
 
+use App\Mail\VaccinationScheduled;
+use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Mail\VaccinationScheduled;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
-use App\Models\User;
-
+use Illuminate\Support\Facades\Mail;
 
 class SendVaccinationEmail implements ShouldQueue
 {
-    use Queueable, SerializesModels, InteractsWithQueue;
+    use InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Create a new job instance.
      */
+    public $user;
 
-    public $userId;
-
-    public function __construct($user)
+    public function __construct(User $user)
     {
-        $this->userId = $user->id;
+        if (! $user) {
+            throw new \InvalidArgumentException('User cannot be null.');
+        }
+        $this->user = $user;
     }
 
     /**
@@ -32,18 +33,18 @@ class SendVaccinationEmail implements ShouldQueue
      */
     public function handle(): void
     {
-        $user = User::find($this->userId);
+        // Check if the user exists or scheduled_date is available.
+        if (! $this->user || ! $this->user->scheduled_date) {
+            Log::warning("User or scheduled_date not found for email: {$this->user->email}");
 
-        if (!$user) {
-            Log::error('User not found for ID: ' . $this->userId);
             return;
         }
 
         try {
-            Mail::to($user->email)->send(new VaccinationScheduled($user));
-            Log::info('Email sent to: ' . $user->email);
+            Mail::to($this->user->email)->send(new VaccinationScheduled($this->user));
+            Log::info("Vaccination email sent to: {$this->user->email}");
         } catch (\Exception $e) {
-            Log::error('Failed to send email to ' . $user->email . ': ' . $e->getMessage());
+            Log::error('Error sending vaccination email: '.$e->getMessage());
         }
     }
 }

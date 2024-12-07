@@ -20,9 +20,4 @@ class VaccineCenter extends Model
     {
         return $this->hasMany(User::class, 'vaccine_center_id');
     }
-
-    public function registrations()
-    {
-        return $this->hasMany(Registration::class);
-    }
 }

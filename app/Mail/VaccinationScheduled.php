@@ -2,8 +2,9 @@
 
 namespace App\Mail;
 
+use App\Enums\UserStatus;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -17,9 +18,10 @@ class VaccinationScheduled extends Mailable
      * Create a new message instance.
      */
     public $user;
-    public function __construct($user)
+
+    public function __construct(User $user)
     {
-        if (!$user) {
+        if (! $user) {
             throw new \InvalidArgumentException('User cannot be null.');
         }
         $this->user = $user;
@@ -40,9 +42,7 @@ class VaccinationScheduled extends Mailable
      */
     public function content(): Content
     {
-        return new Content(
-            view: 'view.name',
-        );
+        return new Content(view: 'emails.vaccination-scheduled');
     }
 
     /**
@@ -65,7 +65,9 @@ class VaccinationScheduled extends Mailable
             ->with([
                 'name' => $this->user->name,
                 'center' => $this->user->vaccineCenter->name,
-                'date' => $this->user->scheduled_date->format('Y-m-d'),
+                'date' => $this->user->scheduled_date
+                    ? $this->user->scheduled_date->format('Y-m-d')
+                    : UserStatus::NOT_SCHEDULED,
             ]);
     }
 }

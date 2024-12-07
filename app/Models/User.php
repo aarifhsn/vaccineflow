@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Enums\UserStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -66,8 +68,12 @@ class User extends Authenticatable
         }
 
         // avatar url
-        $initials = 'https://ui-avatars.com/api/?name=' . $initials . '&background=fff&color=1d4ed8&font-size=0.35&bold=true';
+        $initials = 'https://ui-avatars.com/api/?name='.$initials.'&background=fff&color=1d4ed8&font-size=0.35&bold=true';
 
         return $initials;
     }
+
+    protected $casts = [
+        'status' => UserStatus::class,
+    ];
 }

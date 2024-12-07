@@ -16,10 +16,16 @@
         </div>
         <div class="text-center mt-2">
             <h2 class="font-semibold mb-8">{{auth()->user()->name}}</h2>
-            <p
-                class="text-slate-200 my-4 py-4 font-bold capitalize {{ auth()->user()->status === 'not scheduled' ? 'bg-red-600' : (auth()->user()->status === 'scheduled' ? 'bg-blue-600' : 'bg-green-600') }}">
+            <h5>{{ auth()->user()->email }}</h5>
+            <p class="text-slate-200 my-4 py-4 font-bold capitalize 
+                    {{ auth()->user()->status === \App\Enums\UserStatus::NOT_SCHEDULED ? 'bg-red-600' :
+            (auth()->user()->status === \App\Enums\UserStatus::SCHEDULED ? 'bg-blue-600' : 'bg-green-600') }}">
                 {{ auth()->user()->status }}
             </p>
+            <p class="mt-4 text-sm text-gray-400">Joined {{ auth()->user()->created_at->diffForHumans() }}</p>
+        </div>
+        <div class="my-4 py-2 text-center">
+            {{auth()->user()->VaccineCenter->name}}
         </div>
         <ul class="py-4 mt-2 text-gray-700 flex items-center justify-around">
             <li class="flex flex-col items-center justify-around">

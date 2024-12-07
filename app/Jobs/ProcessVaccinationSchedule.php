@@ -2,11 +2,13 @@
 
 namespace App\Jobs;
 
+use App\Enums\UserStatus;
+use App\Models\User;
+use App\Models\VaccineCenter;
+use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-use App\Models\User;
 use Illuminate\Support\Facades\Log;
-use App\Models\VaccineCenter;
 
 class ProcessVaccinationSchedule implements ShouldQueue
 {
@@ -25,35 +27,40 @@ class ProcessVaccinationSchedule implements ShouldQueue
      */
     public function handle(): void
     {
-        Log::info('Vaccination scheduler started.');
-        $today = now();
-        if ($today->isWeekend()) {
-            Log::info('Skipping schedule on weekend.');
-            return;
-        }
-
         VaccineCenter::each(function ($center) {
-            Log::info("Processing center: {$center->name}");
-            $users = User::where('status', 'not scheduled')
+            // Calculate how many users are already scheduled for the current day
+            $usersScheduledToday = User::where('vaccine_center_id', $center->id)
+                ->whereDate('scheduled_date', Carbon::today())
+                ->count();
+
+            // Calculate how many users can be still be scheduled
+            $remainingCapacity = $center->daily_capacity - $usersScheduledToday;
+
+            if ($remainingCapacity <= 0) {
+                Log::info("No more users to schedule for center: {$center->name}");
+
+                return;
+            }
+
+            // Now, get the users who have not been scheduled, are eligible, and we can still schedule based on remaining capacity
+            $users = User::where('status', UserStatus::NOT_SCHEDULED)
                 ->where('vaccine_center_id', $center->id)
+                ->whereDate('created_at', '<=', Carbon::now()->subDays(2))
                 ->orderBy('created_at')
-                ->take($center->daily_limit)
+                ->limit($remainingCapacity)
                 ->get();
 
             foreach ($users as $user) {
-                Log::info("Scheduling user: {$user->email}");
+                $scheduledDate = now()->addDay();
+
                 $user->update([
-                    'status' => 'scheduled',
-                    'scheduled_date' => now()->addDay(),
+                    'status' => UserStatus::SCHEDULED,
+                    'scheduled_date' => $scheduledDate,
                 ]);
 
-                if (!$user) {
-                    Log::error('Failed to dispatch email job: User is null.');
-                    return;
-                }
+                Log::info("User scheduled: {$user->email}, scheduled_date: {$user->scheduled_date}");
 
-                Log::info('Dispatching email job for user: ' . $user->email);
-
+                // Dispatch the email job
                 SendVaccinationEmail::dispatch($user);
             }
         });
