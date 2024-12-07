@@ -25,9 +25,11 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('email')->required(),
                 Forms\Components\TextInput::make('nid'),
                 Forms\Components\TextInput::make('phone'),
+                Forms\Components\Select::make('vaccine_center_id')
+                    ->relationship('VaccineCenter', 'name'),
                 Forms\Components\TextInput::make('password')
                     ->password()
-                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                    ->dehydrateStateUsing(fn($state) => Hash::make($state))
                     ->dehydrated(false),
             ]);
     }
