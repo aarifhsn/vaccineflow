@@ -4,9 +4,9 @@ This is a Laravel-based Vaccine Scheduling System that allows user registration,
 
 ---
 
-![Vaccine-not-scheduled](/opt/lampp/htdocs/laravel-career-path/vaccineflow/1.vaccine-not-scheduled.png)
-![Vaccine-scheduled](/opt/lampp/htdocs/laravel-career-path/vaccineflow/2.vaccine-scheduled.png)
-![Vaccine-vaccinated](/opt/lampp/htdocs/laravel-career-path/vaccineflow/3.vaccine-vaccinated.png)
+![Vaccine-not-scheduled](/1.vaccine-not-scheduled.png)
+![Vaccine-scheduled](/2.vaccine-scheduled.png)
+![Vaccine-vaccinated](/3.vaccine-vaccinated.png)
 
 ## Features
 
