@@ -45,13 +45,13 @@ class ProcessVaccinationSchedule implements ShouldQueue
             // Now, get the users who have not been scheduled, are eligible, and we can still schedule based on remaining capacity
             $users = User::where('status', UserStatus::NOT_SCHEDULED)
                 ->where('vaccine_center_id', $center->id)
-                ->whereDate('created_at', '<=', Carbon::now()->subDays(2))
+                ->whereDate('created_at', '<=', Carbon::now()->subDay())
                 ->orderBy('created_at')
                 ->limit($remainingCapacity)
                 ->get();
 
             foreach ($users as $user) {
-                $scheduledDate = now()->addDay();
+                $scheduledDate = Carbon::now()->addDays(1)->toDateString();
 
                 $user->update([
                     'status' => UserStatus::SCHEDULED,

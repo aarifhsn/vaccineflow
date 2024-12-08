@@ -28,6 +28,7 @@ class User extends Authenticatable
         'vaccine_center_id',
         'remember_token',
         'status',
+        'scheduled_date',
     ];
 
     /**
@@ -50,6 +51,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'status' => UserStatus::class,
+            'scheduled_date' => 'date',
         ];
     }
 
@@ -68,12 +71,8 @@ class User extends Authenticatable
         }
 
         // avatar url
-        $initials = 'https://ui-avatars.com/api/?name='.$initials.'&background=fff&color=1d4ed8&font-size=0.35&bold=true';
+        $initials = 'https://ui-avatars.com/api/?name=' . $initials . '&background=fff&color=1d4ed8&font-size=0.35&bold=true';
 
         return $initials;
     }
-
-    protected $casts = [
-        'status' => UserStatus::class,
-    ];
 }
