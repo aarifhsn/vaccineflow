@@ -32,6 +32,12 @@ This is a Laravel-based Vaccine Scheduling System that allows user registration,
     php artisan serve
     ```
 
+1.  ### Start the npm server:
+
+    ```bash
+    npm run dev
+    ```
+
 1.  Start Queue Worker to process scheduled jobs:
 
     ```bash
