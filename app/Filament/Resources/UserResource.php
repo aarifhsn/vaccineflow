@@ -29,7 +29,7 @@ class UserResource extends Resource
                     ->relationship('VaccineCenter', 'name'),
                 Forms\Components\TextInput::make('password')
                     ->password()
-                    ->dehydrateStateUsing(fn($state) => Hash::make($state))
+                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                     ->dehydrated(false),
             ]);
     }

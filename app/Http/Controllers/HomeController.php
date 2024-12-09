@@ -15,7 +15,7 @@ class HomeController extends Controller
         }
 
         return view('home', [
-            'notifiedAt' => $notifiedAt
+            'notifiedAt' => $notifiedAt,
         ]);
     }
 }

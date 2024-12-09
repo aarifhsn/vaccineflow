@@ -3,15 +3,11 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\VaccineCenterResource\Pages;
-use App\Filament\Resources\VaccineCenterResource\RelationManagers;
 use App\Models\VaccineCenter;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class VaccineCenterResource extends Resource
 {
@@ -47,8 +43,8 @@ class VaccineCenterResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])->emptyStateActions([
-                    Tables\Actions\CreateAction::make(),
-                ])
+                Tables\Actions\CreateAction::make(),
+            ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
             ]);

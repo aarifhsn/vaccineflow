@@ -64,9 +64,9 @@
             password</label>
     </div>
     <div class="relative z-0 w-full mb-5 group">
-        <select class="p-4 pl-0 bg-gray-100 border border-gray-200 rounded-sm w-full" name="vaccine_center"
-            id="vaccine_center">
-            <option class="text-gray-500 pr-2" value="">Select Vaccine Center</option>
+        <select class="text-gray-500 text-md p-4 pl-0 bg-gray-100 border-b-2 border-gray-300 rounded-sm w-full"
+            name="vaccine_center" id="vaccine_center">
+            <option class=" pr-2" value="">Select Vaccine Center</option>
             @foreach ($vaccine_centers as $vaccine_center)
                 <option class="text-gray-500 py-2 border-b border-gray-200 " value="{{ $vaccine_center->id }}">
                     {{ $vaccine_center->name }}

@@ -19,9 +19,9 @@ class VaccineCenterFactory extends Factory
         $centers = ['Hospital', 'Medical Center', 'Clinic', 'Healthcare Center', 'Health Institute', 'Wellness Center', 'Medical Group', 'Health Systems', 'Care Center', 'Health Clinic'];
 
         return [
-            'name' => fake()->company . ' ' . fake()->randomElement($centers),
+            'name' => fake()->company.' '.fake()->randomElement($centers),
             'location' => fake()->address(),
-            'daily_capacity' => fake()->numberBetween(50, 100),
+            'daily_capacity' => fake()->numberBetween(2, 10),
         ];
     }
 }

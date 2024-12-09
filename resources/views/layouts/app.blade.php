@@ -32,6 +32,8 @@
 
     @yield('scripts')
     @vite('resources/js/app.js')
+
+    @include ('components.footer')
 </body>
 
 </html>

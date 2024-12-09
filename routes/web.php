@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserVaccinationController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
@@ -20,3 +21,5 @@ Route::post('/registration', [RegistrationController::class, 'store']);
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::post('/vaccination/confim/{user}', [UserVaccinationController::class, 'confirm'])->name('vaccination.confirm');

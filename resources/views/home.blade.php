@@ -11,10 +11,12 @@
         </div>
 
         <div class="text-center mt-2 py-8">
-            <h2 class="font-bold mb-4 text-2xl">{{auth()->user()->name}}</h2>
+            <h2 class="font-bold text-2xl capitalize">{{auth()->user()->name}}</h2>
+            <span class="block font-semibold text-slate-400 text-sm mb-4">NID: {{auth()->user()->nid}}</span>
 
             @if (auth()->user()->status !== \App\Enums\UserStatus::VACCINATED)
                 <h5 class="text-gray-700 font-semibold">Center: {{auth()->user()->VaccineCenter?->name}}</h5>
+
             @endif
 
             <p class="text-slate-200 my-8 py-4 font-bold capitalize {{ auth()->user()->status === \App\Enums\UserStatus::NOT_SCHEDULED ? 'bg-red-600' :
@@ -29,7 +31,7 @@
 
             @elseif (auth()->user()->status === \App\Enums\UserStatus::SCHEDULED)
                 <div class="px-4 font-semibold">Your vaccination is scheduled at <span
-                        class="font-bold">{{auth()->user()->scheduled_date}} </span>. Please
+                        class="font-bold">{{auth()->user()->scheduled_date->toDateString()}}. </span>Please
                     arrive at the center by <span class="font-bold">9:00 AM.</span></div>
 
             @elseif (auth()->user()->status === \App\Enums\UserStatus::VACCINATED)
@@ -39,24 +41,22 @@
         </div>
 
         <div class="p-4 border-t mx-8 mt-2">
-            @if(auth()->user()->status === \App\Enums\UserStatus::SCHEDULED)
-                <button
-                    class=" block mx-auto rounded-full bg-blue-700 hover:shadow-lg font-semibold text-white px-6 py-2">Confim
-                    Vaccination</button>
-            @else
-                <button
-                    class=" block mx-auto rounded-full bg-blue-700 hover:shadow-lg font-semibold text-white px-6 py-2">Contact
-                    Us</button>
-            @endif
-        </div </div>
+            <button
+                class=" block mx-auto rounded-full bg-blue-700 hover:shadow-lg font-semibold text-white px-6 py-2">Contact
+                Us</button>
+        </div>
 @else
-    <div class="p-4 border-t mx-8 text-center">
-        <h3
-            class="w-full text-cente block mx-auto rounded-full bg-blue-700 hover:shadow-lg font-semibold text-white px-6 py-4">
-            Vaccine
-            Registration Center
-        </h3>
+    <div class="text-center mt-40">
+        <h1 class="text-4xl font-bold text-gray-800">Welcome to Our Vaccination Portal</h1>
+        <p class="text-gray-600 mt-4">Manage your vaccination schedule, track appointments, and stay updated.</p>
+        <div class="mt-6">
+            <a href="{{ route('login') }}"
+                class="px-6 py-3 bg-blue-500 text-white rounded shadow hover:bg-blue-600">Login</a>
+            <a href="{{ route('registration') }}"
+                class="ml-4 px-6 py-3 bg-gray-300 text-gray-800 rounded shadow hover:bg-gray-400">Register</a>
+        </div>
     </div>
+
 @endif
     <script>
         document.addEventListener('DOMContentLoaded', function () {

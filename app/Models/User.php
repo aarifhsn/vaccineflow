@@ -71,7 +71,7 @@ class User extends Authenticatable
         }
 
         // avatar url
-        $initials = 'https://ui-avatars.com/api/?name=' . $initials . '&background=fff&color=1d4ed8&font-size=0.35&bold=true';
+        $initials = 'https://ui-avatars.com/api/?name='.$initials.'&background=fff&color=1d4ed8&font-size=0.35&bold=true';
 
         return $initials;
     }

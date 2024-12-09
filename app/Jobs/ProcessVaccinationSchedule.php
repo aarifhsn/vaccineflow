@@ -51,18 +51,44 @@ class ProcessVaccinationSchedule implements ShouldQueue
                 ->get();
 
             foreach ($users as $user) {
-                $scheduledDate = Carbon::now()->addDays(1)->toDateString();
+                $scheduledDate = $this->findNextAvailableDate($center);
 
                 $user->update([
                     'status' => UserStatus::SCHEDULED,
                     'scheduled_date' => $scheduledDate,
                 ]);
 
-                Log::info("User scheduled: {$user->email}, scheduled_date: {$user->scheduled_date}");
+                Log::info("User scheduled: {$user->email}, scheduled_date: {$user->scheduled_date->toDateString()}");
 
                 // Dispatch the email job
-                SendVaccinationEmail::dispatch($user);
+                SendVaccinationEmail::dispatch($user)->delay(Carbon::now()->addSeconds(5));
             }
         });
+    }
+
+    protected function findNextAvailableDate(VaccineCenter $center): string
+    {
+        $date = Carbon::now()->addDays(); // Start from tomorrow
+
+        while (true) {
+            // is weekends
+            if ($date->isWeekend()) {
+                $date->addDay();
+
+                continue;
+            }
+
+            // Check if there are already enough users scheduled for the current day
+            $usersScheduled = User::where('vaccine_center_id', $center->id)
+                ->whereDate('scheduled_date', $date)
+                ->count();
+
+            if ($usersScheduled < $center->daily_capacity) {
+                return $date->toDateString();
+            }
+
+            $date->addDay(); // Move to the next day
+        }
+
     }
 }
