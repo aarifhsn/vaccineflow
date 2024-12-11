@@ -8,8 +8,6 @@ This is a Laravel-based Vaccine Scheduling System that allows user registration,
   <tr>
     <td><img src="vaccination-portal.png" alt="Photo 1" width="150"/></td>
     <td><img src="1.vaccine-not-scheduled.png" alt="Photo 1" width="150"/></td>
-  </tr>
-  <tr>
     <td><img src="2.vaccine-scheduled.png" alt="Photo 2" width="150"/></td>
     <td><img src="3.vaccine-vaccinated.png" alt="Photo 3" width="150"/></td>
   </tr>
