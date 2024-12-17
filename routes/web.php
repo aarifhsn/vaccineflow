@@ -23,3 +23,5 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::post('/vaccination/confim/{user}', [UserVaccinationController::class, 'confirm'])->name('vaccination.confirm');
+
+Route::post('/api/webhook/registration', [UserVaccinationController::class, 'handleWebhook']);
