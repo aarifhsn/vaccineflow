@@ -54,6 +54,9 @@
                 class="px-6 py-3 bg-blue-500 text-white rounded shadow hover:bg-blue-600">Login</a>
             <a href="{{ route('registration') }}"
                 class="ml-4 px-6 py-3 bg-gray-300 text-gray-800 rounded shadow hover:bg-gray-400">Register</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSc8EsJdzivvtd--61YRWvodygVZnDm4ZeCvVmM5LFH5q2WFOg/viewform"
+                class="ml-4 px-6 py-3 bg-gray-300 text-gray-800 rounded shadow hover:bg-gray-400">Register with Google
+                Form</a>
         </div>
     </div>
 

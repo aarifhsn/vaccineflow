@@ -14,4 +14,9 @@ class VaccineRegistration extends Model
         'password',
         'vaccine_center',
     ];
+
+    public function vaccineCenter()
+    {
+        return $this->belongsTo(VaccineCenter::class);
+    }
 }
